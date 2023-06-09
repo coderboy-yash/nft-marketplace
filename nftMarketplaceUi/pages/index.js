@@ -1,7 +1,51 @@
 import React from "react";
-
+import Style from "../styles/index.module.css";
+import {
+  HeroSection,
+  BigNftSlider,
+  Service,
+  Subscribe,
+  Title,
+  Category,
+  Filter,
+  NFTCard,
+  Collection,
+  AudioLive,
+  FollowerTab,
+  Slider,
+  Brand,
+  Video,
+} from "../components/componentsindex";
 const Home = () => {
-  return <div>Home</div>;
+  return (
+    <div className={Style.homePage}>
+      <HeroSection />
+      <Service />
+      <BigNftSlider />
+      <Title
+        heading="Audio Collection"
+        paragraph="Discover the most outstanding NFTs in all topics of life."
+      />
+      <AudioLive />
+      <FollowerTab></FollowerTab>
+      <Slider></Slider>
+      <Collection />
+      <Title
+        heading="Featured NFTs"
+        paragraph="Discover the most outstanding NFTs in all topics of life."
+      />
+      <Filter></Filter>
+      <NFTCard></NFTCard>
+      <Title
+        heading="Browse by category"
+        paragraph="Explore the NFTs in the most featured categories."
+      />
+      <Category></Category>
+      <Subscribe />
+      <Brand />
+      <Video />
+    </div>
+  );
 };
 
 export default Home;
