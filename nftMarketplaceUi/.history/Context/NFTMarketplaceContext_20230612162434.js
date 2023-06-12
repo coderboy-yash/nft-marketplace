@@ -1,6 +1,3 @@
-// 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
-// 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
-
 import React, { useContext, useEffect, useState } from "react";
 import Web3Modal from "web3modal";
 import { ethers } from "ethers";
@@ -66,10 +63,10 @@ export const NFTMarketplaceProvider = ({ children }) => {
       if (!window.ethereum) return console.log("install metamask");
 
       const accounts = await window.ethereum.request({
-        method: "eth_requestAccounts",
+        method: "eth_requestAccount",
       });
       setCurrentAccount(accounts[0]);
-      // window.location.reload();
+      window.location.reload();
     } catch (error) {
       console.log("Error while connecting to wallet", error);
     }

@@ -66,10 +66,10 @@ export const NFTMarketplaceProvider = ({ children }) => {
       if (!window.ethereum) return console.log("install metamask");
 
       const accounts = await window.ethereum.request({
-        method: "eth_requestAccounts",
+        method: "eth_requestAccount",
       });
       setCurrentAccount(accounts[0]);
-      // window.location.reload();
+      window.location.reload();
     } catch (error) {
       console.log("Error while connecting to wallet", error);
     }

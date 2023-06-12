@@ -21,11 +21,6 @@ import { NFTMarketplaceContext } from "../Context/NFTMarketplaceContext";
 
 const Home = () => {
   const { checkIfWalletConnected } = useContext(NFTMarketplaceContext);
-
-  useEffect(() => {
-    checkIfWalletConnected();
-  }, []);
-
   const { checkContract } = useContext(NFTMarketplaceContext);
 
   return (

@@ -81,14 +81,12 @@ const NavBar = () => {
       <div className={Style.navbar_container}>
         <div className={Style.navbar_container_left}>
           <div className={Style.logo}>
-            <a href="/">
-              <Image
-                src={images.logo}
-                alt="NFT MARKET PLACE"
-                width={100}
-                height={100}
-              />
-            </a>
+            <Image
+              src={images.logo}
+              alt="NFT MARKET PLACE"
+              width={100}
+              height={100}
+            />
           </div>
           <div className={Style.navbar_container_left_box_input}>
             <div className={Style.navbar_container_left_box_input_box}>
@@ -131,16 +129,8 @@ const NavBar = () => {
 
           {/* CREATE BUTTON SECTION */}
           <div className={Style.navbar_container_right_button}>
-            {currentAccount == "" ? (
-              <Button
-                btnName="Connect"
-                handleClick={() => connectWallet()}
-              ></Button>
-            ) : (
-              <a href="/uploadNFT">
-                <Button btnName="Create" handleClick={() => {}}></Button>
-              </a>
-            )}
+            {currentAccount == ""}
+            <Button btnName="Create" handleClick={() => {}} />
           </div>
 
           {/* USER PROFILE */}

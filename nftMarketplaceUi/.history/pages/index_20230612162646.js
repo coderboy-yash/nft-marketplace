@@ -23,7 +23,7 @@ const Home = () => {
   const { checkIfWalletConnected } = useContext(NFTMarketplaceContext);
 
   useEffect(() => {
-    checkIfWalletConnected();
+    checkIfWalletConnected;
   }, []);
 
   const { checkContract } = useContext(NFTMarketplaceContext);
