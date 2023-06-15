@@ -5,7 +5,6 @@ import Router from "next/router";
 import { NFTMarketplaceABI, NFTMarketplaceAddress } from "./Constants";
 import axios from "axios";
 import { create as ipfsHttpClient } from "ipfs-http-client";
-// import axios from "axios";
 
 import { useStorageUpload } from "@thirdweb-dev/react";
 import { ThirdwebStorage } from "@thirdweb-dev/storage";
@@ -21,7 +20,15 @@ const storage = new ThirdwebStorage();
 
 // const subdomain = "your subdomain";
 
-const client = ipfsHttpClient("https://ipfs.infura.io:5001/api/v0");
+const client = ipfsHttpClient({
+  host: "ipfs-2.thirdwebcdn.com",
+  port: 5001,
+  protocol: "https",
+  headers: {
+    authorization:
+      "70dcf36e1ef844706b6673c10b03fe9109cc200b8aa343f7b33f124ccbf3860f746f203a4834235f0e5908b66f80fde97fb678c43c00f7c7f7721bdce3d18451",
+  },
+});
 
 const fetchContract = (signerOrProvider) =>
   new ethers.Contract(
@@ -105,25 +112,57 @@ export const NFTMarketplaceProvider = ({ children }) => {
   };
 
   // create nft fucnction
+  // const createNFT = async (name, price, image, description, router) => {
+  //   if (!name || !description || !price || !image)
+  //     return console.log("data is missing");
+
+  //   const data = JSON.stringify({ name, description, image });
+  //   try {
+  //     //https://ipfs.thirdwebcdn.com/ipfs/
+  //     const added = await client.add(data);
+  //     const url = `https://ipfs.thirdwebcdn.com/ipfs/${added.path}`;
+  //     console.log("1");
+  //     await createSale(url, price);
+  //     console.log("2");
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
   const createNFT = async (name, price, image, description, router) => {
     if (!name || !description || !price || !image)
-      return console.log("data is missing");
+      return console.log("Data is missing.");
 
     const data = JSON.stringify({ name, description, image });
     try {
-      console.log("1", data);
+      // Upload the metadata to ThirdWeb
+      const metadataResponse = await router.post("/metadata", data);
+      const metadataHash = metadataResponse.data.hash;
+      const metadataUrl = `https://api.thirdweb.io/ipfs/${metadataHash}`;
 
-      const added = await client.add(data);
-      console.log(added.path);
-    const url = `https://ipfs.infura.io/ipfs/${added.path}`;
+      // Upload the image to ThirdWeb
+      const imageResponse = await router.post("/upload", image, {
+        headers: { "Content-Type": "image/*" },
+      });
+      const imageHash = imageResponse.data.hash;
+      const imageUrl = `https://api.thirdweb.io/ipfs/${imageHash}`;
 
-      console.log("1");
-      await createSale(url, price);
-      router.push("/");
+      // Create the NFT on ThirdWeb
+      const nftResponse = await router.post("/nft", {
+        name,
+        description,
+        image: imageUrl,
+        metadata: metadataUrl,
+      });
 
-      console.log("2");
+      // Get the NFT ID from the response
+      const nftId = nftResponse.data.id;
+
+      // Create the sale on ThirdWeb
+      // await createSale(router, nftId, price);
+
+      console.log("NFT created successfully.");
     } catch (error) {
-      console.log(error);
+      console.log("Error creating NFT:", error.response.data);
     }
   };
 

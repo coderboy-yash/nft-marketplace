@@ -215,7 +215,18 @@ export default function UploadNFT({ uploadToIPFS, createNFT }) {
           <Button
             btnName="Upload"
             handleClick={async () =>
-              createNFT(name, price, image, description, router)
+              createNFT(
+                name,
+                price,
+                image,
+                description,
+                router,
+                // website
+                // royalties,
+                // fileSize,
+                // category,
+                // properties
+              )
             }
             classStyle={Style.upload_box_btn_style}
           />

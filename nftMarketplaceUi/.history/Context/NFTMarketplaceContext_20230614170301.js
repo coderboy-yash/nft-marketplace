@@ -119,8 +119,6 @@ export const NFTMarketplaceProvider = ({ children }) => {
 
       console.log("1");
       await createSale(url, price);
-      router.push("/");
-
       console.log("2");
     } catch (error) {
       console.log(error);

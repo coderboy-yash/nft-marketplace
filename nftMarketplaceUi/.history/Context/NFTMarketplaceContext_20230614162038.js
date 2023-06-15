@@ -21,7 +21,15 @@ const storage = new ThirdwebStorage();
 
 // const subdomain = "your subdomain";
 
-const client = ipfsHttpClient("https://ipfs.infura.io:5001/api/v0");
+const client = ipfsHttpClient({
+  host: "ipfs-2.thirdwebcdn.com",
+  port: 5001,
+  protocol: "https",
+  headers: {
+    authorization:
+      "70dcf36e1ef844706b6673c10b03fe9109cc200b8aa343f7b33f124ccbf3860f746f203a4834235f0e5908b66f80fde97fb678c43c00f7c7f7721bdce3d18451",
+  },
+});
 
 const fetchContract = (signerOrProvider) =>
   new ethers.Contract(
@@ -111,21 +119,19 @@ export const NFTMarketplaceProvider = ({ children }) => {
 
     const data = JSON.stringify({ name, description, image });
     try {
-      console.log("1", data);
+            console.log("1");
 
+      //https://ipfs.thirdwebcdn.com/ipfs/
       const added = await client.add(data);
-      console.log(added.path);
-    const url = `https://ipfs.infura.io/ipfs/${added.path}`;
-
+      const url = `https://ipfs.thirdwebcdn.com/ipfs/${added.path}`;
       console.log("1");
       await createSale(url, price);
-      router.push("/");
-
       console.log("2");
     } catch (error) {
       console.log(error);
     }
   };
+ 
 
   //   create sale function
   const createSale = async (url, formInputPrice, isReselling, id) => {

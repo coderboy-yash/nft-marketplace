@@ -5,7 +5,6 @@ import Router from "next/router";
 import { NFTMarketplaceABI, NFTMarketplaceAddress } from "./Constants";
 import axios from "axios";
 import { create as ipfsHttpClient } from "ipfs-http-client";
-// import axios from "axios";
 
 import { useStorageUpload } from "@thirdweb-dev/react";
 import { ThirdwebStorage } from "@thirdweb-dev/storage";
@@ -21,7 +20,14 @@ const storage = new ThirdwebStorage();
 
 // const subdomain = "your subdomain";
 
-const client = ipfsHttpClient("https://ipfs.infura.io:5001/api/v0");
+const client = ipfsHttpClient({
+  host: "ipfs-2.thirdwebcdn.com",
+  port: 5001,
+  protocol: "https",
+  headers: {
+    authorization: auth,
+  },
+});
 
 const fetchContract = (signerOrProvider) =>
   new ethers.Contract(
@@ -111,17 +117,10 @@ export const NFTMarketplaceProvider = ({ children }) => {
 
     const data = JSON.stringify({ name, description, image });
     try {
-      console.log("1", data);
-
+      // https://ipfs-2.thirdwebcdn.com/ipfs/Qmf4ja364WinRgF2rdmGdgD3ubRkYZthZFZkJ3qdyKQEpZ/
       const added = await client.add(data);
-      console.log(added.path);
-    const url = `https://ipfs.infura.io/ipfs/${added.path}`;
-
-      console.log("1");
+      const url = `https://ipfs-2.thirdwebcdn.com/ipfs/${added.path}`;
       await createSale(url, price);
-      router.push("/");
-
-      console.log("2");
     } catch (error) {
       console.log(error);
     }
